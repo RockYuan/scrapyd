@@ -1,3 +1,2 @@
 bs4
-psycopg2
 stem
