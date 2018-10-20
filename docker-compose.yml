@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+  backend:
+    driver: overlay
+
+services:
+  scrapyd:
+    build: .
+    image: scrapyd
+    ports:
+      - "6800:6800"
+    volumes:
+      - ./scrapyd:/var/lib/scrapyd
+      - /usr/local/lib/python3.7/dist-packages
+    restart: always
+
+  scrapy:
+    image: scrapyd
+    command: bash
+    volumes:
+      - ./scrapy:/data
+    working_dir: /data
+    restart: always
+
+  scrapyrt:
+    image: scrapyd
+    command: scrapyrt -i 0.0.0.0 -p 9080
+    ports:
+      - "9080:9080"
+    volumes:
+      - ./scrapyrt:/data
+    working_dir: /data
+    restart: always
