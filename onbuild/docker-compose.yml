@@ -19,7 +19,7 @@ services:
 
   scrapy:
     image: scrapyd-onbuild
-    command: bash
+    command: ['tail', '-f', '/dev/null']
     volumes:
       - ./scrapy:/data
     working_dir: /data
