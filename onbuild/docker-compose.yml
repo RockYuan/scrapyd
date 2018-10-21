@@ -7,7 +7,7 @@ networks:
 services:
   scrapyd:
     build: .
-    image: scrapyd
+    image: scrapyd-onbuild
     ports:
       - "6800:6800"
     volumes:
@@ -18,7 +18,7 @@ services:
       - backend
 
   scrapy:
-    image: scrapyd
+    image: scrapyd-onbuild
     command: bash
     volumes:
       - ./scrapy:/data
@@ -28,7 +28,7 @@ services:
       - backend
 
   scrapyrt:
-    image: scrapyd
+    image: scrapyd-onbuild
     command: scrapyrt -i 0.0.0.0 -p 9080
     ports:
       - "9080:9080"

@@ -50,4 +50,4 @@ fi
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
-alias ll='ls -l'
+alias ll='ls -lh'

@@ -3,23 +3,14 @@ LABEL name='scrapyd' tag='python-alpine' maintainer='RockYuan <RockYuan@gmail>'
 
 ENV BUILD_DEPS \
     autoconf \
-    # build-essential \
-    # libffi-dev \
-    # libssl-dev \
     libtool \
     libxml2-dev \
-    # libxslt1-dev \
     libxslt-dev \
-    # libtiff5-dev \
     tiff-dev \
-    # libfreetype6-dev \
     freetype-dev \
-    # libjpeg62-turbo-dev \
     libjpeg-turbo-dev \
-    # liblcms2-dev \
     lcms2-dev \
     libwebp-dev \
-    # zlib1g-dev \
     bzip2-dev \
     coreutils \
     dpkg-dev dpkg \
@@ -53,18 +44,11 @@ ENV RUN_DEPS \
     curl \
     git \
     libxml2 \
-    py3-libxml2 \
     libxslt \
-    py2-libxslt \
-    # libxslt1.1 \
-    # libtiff5 \
     tiff \
-    # libjpeg62-turbo \
     libjpeg-turbo \
-    # liblcms2-2 \
     lcms2 \
     libwebp \
-    # zlib1g \
     zlib \
     bash \
     vim
@@ -93,6 +77,16 @@ COPY config/scrapyd.conf /etc/scrapyd/
 COPY config/env_prompt.sh /etc/profile.d/env_prompt.sh
 ENV ENV="/etc/profile"
 VOLUME /etc/scrapyd/ /var/lib/scrapyd/
+
+ONBUILD ADD ./*.txt /etc/scrapyd/
+ONBUILD RUN cd /etc/scrapyd; \
+    [ -f packages.txt -o -f dependencies.txt ] && apk update; \
+    [ -f packages.txt ] && xargs -r apk add --no-cache < packages.txt; \
+    [ -f dependencies.txt ] && xargs -r apk add --no-cache < dependencies.txt; \
+    [ -f requirements.txt ] && pip install -r requirements.txt; \
+    [ -f dependencies.txt ] && xargs -r apk del < dependencies.txt; \
+    [ -f packages.txt -o -f dependencies.txt ] && rm -rf /tmp/*
+
 WORKDIR /data
 EXPOSE 6800
 
