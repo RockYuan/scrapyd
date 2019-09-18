@@ -6,19 +6,19 @@ networks:
 
 services:
   scrapyd:
-    build: .
-    image: scrapyd
+    build: ./onbuild
+    image: scrapyd-onbuild
     ports:
-      - "6800:6800"
+      - "127.0.0.1:6800:6800"
     volumes:
       - ./scrapyd:/var/lib/scrapyd
-      - /usr/local/lib/python3.7/dist-packages
     restart: always
     networks:
       - backend
 
   scrapy:
-    image: scrapyd
+    build: ./onbuild
+    image: scrapyd-onbuild
     command: ['tail', '-f', '/dev/null']
     volumes:
       - ./scrapy:/data
@@ -28,10 +28,11 @@ services:
       - backend
 
   scrapyrt:
-    image: scrapyd
+    build: ./onbuild
+    image: scrapyd-onbuild
     command: scrapyrt -i 0.0.0.0 -p 9080
     ports:
-      - "9080:9080"
+      - "127.0.0.1:9080:9080"
     volumes:
       - ./scrapyrt:/data
     working_dir: /data
