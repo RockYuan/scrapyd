@@ -23,7 +23,6 @@ ENV BUILD_DEPS \
     libc-dev \
     libffi-dev \
     libnsl-dev \
-    # openssl-dev \
     libressl-dev \
     libtirpc-dev \
     linux-headers \
@@ -41,6 +40,7 @@ ENV BUILD_DEPS \
     tzdata
 
 ENV RUN_DEPS \
+    libressl \
     curl \
     git \
     libxml2 \
